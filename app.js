@@ -3,10 +3,15 @@ var express = require('express'),
 		bodyParser = require('body-parser'),
 		mongoose = require('mongoose');
 var Book = require('./Book.model.js');
-var port = 4444;
-var db = 'mongodb://localhost/crud';
+var secret = require('./private');
 
-mongoose.connect(db);
+var port = 4444;
+
+//Local DB
+// var db = 'mongodb://localhost/crud';
+
+var remoteDb = secret.private;
+mongoose.connect(remoteDb);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
