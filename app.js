@@ -37,7 +37,7 @@ app.get('/books/:id', function(req, res) {
 	  		res.send(err)
 	  	} else {
 	  		console.log('book', book)
-	  		res.json(book)
+	  		res.send(book)
 	  	}
 	  });
 });
@@ -57,6 +57,35 @@ app.post('/book', function(req, res){
 			res.send(book)
 		}
 	});
+});
+
+// Using "create" shorthand to post to the database
+app.post('/book2', function(req, res) {
+	Book.create(req.body, function(err, book) {
+		if (err) {
+			res.send(err);
+		} else {
+			console.log(book);
+			res.send(book);
+		}
+	});
+});
+
+app.put('/book/:id', function(req, res) {
+	Book.findOneAndUpdate({
+		_id: req.params.id
+	}, 
+	{$set: 
+		{ title: req.body.title }}, 
+	  { upsert: true }, 
+	  function(err, newBook) {
+	  	if (err) {
+	  		console.log(err);
+	  	} else {
+	  		console.log(newBook)
+	  		res.send(newBook);
+	  	}
+    });
 });
 
 app.listen(port, function(){
