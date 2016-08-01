@@ -8,6 +8,9 @@ var db = 'mongodb://localhost/crud';
 
 mongoose.connect(db);
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded(extended: true));
+
 // routes
 app.get('/', function(req, res){
 	res.send('made it to home page')
