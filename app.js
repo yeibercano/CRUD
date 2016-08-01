@@ -9,9 +9,9 @@ var db = 'mongodb://localhost/crud';
 mongoose.connect(db);
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded(extended: true));
+app.use(bodyParser.urlencoded({extended: true}));
 
-// routes
+// Routes
 app.get('/', function(req, res){
 	res.send('made it to home page')
 });
@@ -42,6 +42,25 @@ app.get('/books/:id', function(req, res) {
 	  });
 });
 
+app.post('/book', function(req, res){
+	var newBook = new Book();
+
+	newBook.title = req.body.title;
+	newBook.author = req.body.author;
+	newBook.category = req.body.category;
+
+	newBook.save(function(err, book) {
+		if (err) {
+			res.send(err)
+		} else {
+			console.log(book);
+			res.send(book)
+		}
+	});
+});
+
 app.listen(port, function(){
 	console.log('app listening on: ' + port)
 });
+
+
